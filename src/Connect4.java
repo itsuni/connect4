@@ -1,4 +1,5 @@
 //Gian Esteves Period 8 APCS Final Project
+
 import java.util.Scanner;
 
 public class Connect4 {
@@ -21,7 +22,7 @@ public class Connect4 {
         printBoard();
         System.out.println("");
 
-        System.out.println("Black goes first");
+        System.out.println("1 goes first");
 
         while (true) {
             setPiece(turn);
@@ -30,6 +31,18 @@ public class Connect4 {
 
             System.out.println("Turn #" + turn);
             printBoard();
+
+            if (checkWin(1) == true || checkWin(2) == true) {
+                System.out.println("Game over!");
+
+                if (turn % 2 == 1) {
+                    System.out.println("2 Wins!");
+                } else {
+                    System.out.println("1 Wins!");
+                }
+
+                break;
+            }
         }
     }
 
@@ -86,11 +99,32 @@ public class Connect4 {
         }
     }
 
-    public static void checkWin(int who) {
-
+    public static boolean checkWin(int player) {
+        if (checkHori(player) == true || checkVert(player) == true) {
+            return true;
+        }
+        return false;
     }
 
-    public static void checkHori() {
+    public static boolean checkHori(int player) {
+        for (int j = 0; j < columns - 3; j++) {
+            for (int i = 0; i < rows; i++) {
+                if (board[i][j] == player && board[i][j + 1] == player && board[i][j + 2] == player && board[i][j + 3] == player) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
+    public static boolean checkVert(int player) {
+        for (int i = 0; i < rows - 3; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (board[i][j] == player && board[i + 1][j] == player && board[i + 2][j] == player && board[i + 3][j] == player) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
