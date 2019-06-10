@@ -51,7 +51,7 @@ public class Connect4 {
 
         choice = choice - 1;
 
-        if (choice >= 7) {
+        while (choice >= 7 || choice < 0) {
             System.out.println("Out of bounds");
             System.out.println("Select another column");
 
