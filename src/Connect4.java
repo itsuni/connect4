@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ public class Connect4 {
 
     public static int auto;
     public static int autoFile;
+
+    public static int locator = -1;
 
     public static int[][] board = new int[rows][columns];
 
@@ -90,10 +93,15 @@ public class Connect4 {
 
     public static void setPiece(int color) throws IOException {
 
+        int choice = 0;
+
         System.out.println("Please choose a column, 1 - 7");
 
-        int choice = input.nextInt();
-
+        if (auto == 0) {
+            choice = input.nextInt();
+        } else {
+            choice = autoPiece();
+        }
         choice = choice - 1;
 
         while (choice >= 7 || choice < 0) {
@@ -131,13 +139,44 @@ public class Connect4 {
         }
     }
 
-    public static int autoPiece(){
-        
+    public static int autoPiece() throws FileNotFoundException {
+
         int result = 0;
 
+        Scanner s = new Scanner(new File("test.txt"));
+
+        switch (autoFile) {
+            case 1: {
+                s = new Scanner(new File("test.txt"));
+                break;
+            }
+            case 2: {
+                s = new Scanner(new File("test2.txt"));
+                break;
+            }
+            case 3: {
+                s = new Scanner(new File("test3.txt"));
+                break;
+            }
+            case 4: {
+                s = new Scanner(new File("mystery.txt"));
+                break;
+            }
+        }
+
+        //Create arraylist of ints from the text files
+        ArrayList<String> list = new ArrayList<String>();
+        while (s.hasNext()) {
+            list.add(s.next());
+        }
+        s.close();
+
+        locator++;
+
+        result = Integer.parseInt(list.get(locator)) + 1;
         return result;
     }
-    
+
     public static boolean checkWin(int player) {
         if (checkHori(player) == true || checkVert(player) == true || checkDiagUp(player) == true || checkDiagDown(player) == true) {
             return true;
